@@ -31,10 +31,12 @@ public class DashboardView extends javax.swing.JFrame {
     private JPanel animePanel;
     ControllerAnime controller;
     int ID;
+    int page;
 
-    public DashboardView(int ID) {
+    public DashboardView(int ID, int page) {
         initComponents();
         this.ID = ID;
+        this.page = page;
         controller = new ControllerAnime(this, this.ID);
 
         System.out.println("ID : " + this.ID);
@@ -45,10 +47,10 @@ public class DashboardView extends javax.swing.JFrame {
         animePanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
 // Atur scroll pane langsung
-jScrollPane1.setViewportView(animePanel);
+        jScrollPane1.setViewportView(animePanel);
 
 
-        controller.fetchAnime();
+        controller.fetchAnime(this.page);
     }
     
     public void displayAnimeList(List<ModelAnime> animeList) {
@@ -122,11 +124,10 @@ jScrollPane1.setViewportView(animePanel);
         jScrollPane2 = new javax.swing.JScrollPane();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        seearchInput = new javax.swing.JTextPane();
         searchButton = new javax.swing.JButton();
         nextButton = new javax.swing.JButton();
         prevButton = new javax.swing.JButton();
+        searchInput = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setSize(new java.awt.Dimension(1920, 1080));
@@ -208,9 +209,12 @@ jScrollPane1.setViewportView(animePanel);
                 .addContainerGap(54, Short.MAX_VALUE))
         );
 
-        jScrollPane3.setViewportView(seearchInput);
-
         searchButton.setText("Search");
+        searchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchButtonActionPerformed(evt);
+            }
+        });
 
         nextButton.setText("Next");
         nextButton.addActionListener(new java.awt.event.ActionListener() {
@@ -220,6 +224,17 @@ jScrollPane1.setViewportView(animePanel);
         });
 
         prevButton.setText("Prev");
+        prevButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                prevButtonActionPerformed(evt);
+            }
+        });
+
+        searchInput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchInputActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -237,8 +252,9 @@ jScrollPane1.setViewportView(animePanel);
                                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
+                                .addGap(9, 9, 9)
+                                .addComponent(searchInput, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(searchButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(prevButton)
@@ -258,7 +274,7 @@ jScrollPane1.setViewportView(animePanel);
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(searchInput, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(searchButton)
                                 .addComponent(nextButton)
@@ -273,7 +289,25 @@ jScrollPane1.setViewportView(animePanel);
 
     private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
         // TODO add your handling code here:
+        this.page += 1;
+        controller.fetchAnime(page);
     }//GEN-LAST:event_nextButtonActionPerformed
+
+    private void prevButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prevButtonActionPerformed
+        // TODO add your handling code here:
+            this.page -= 1;
+            controller.fetchAnime(page);
+        
+    }//GEN-LAST:event_prevButtonActionPerformed
+
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
+        // TODO add your handling code here:
+        controller.searchAnime(searchInput.getText());
+    }//GEN-LAST:event_searchButtonActionPerformed
+
+    private void searchInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchInputActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchInputActionPerformed
 
     /**
      * @param args the command line arguments
@@ -306,14 +340,16 @@ jScrollPane1.setViewportView(animePanel);
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             int ID = this.ID;
-
+            int page = this.page;
             ;
             public void run() {
 
-                new DashboardView(ID).setVisible(true);
+                new DashboardView(ID, page).setVisible(true);
             }
         });
     }
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -323,11 +359,10 @@ jScrollPane1.setViewportView(animePanel);
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JButton nextButton;
     private javax.swing.JButton prevButton;
     private javax.swing.JButton searchButton;
-    private javax.swing.JTextPane seearchInput;
+    private javax.swing.JTextField searchInput;
     // End of variables declaration//GEN-END:variables
 }

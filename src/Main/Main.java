@@ -23,7 +23,7 @@ public class Main {
 //        RegisterView register = new RegisterView();
 //        register.setVisible(true);
         
-        DashboardView dashboard = new DashboardView(1);
+        DashboardView dashboard = new DashboardView(1,1);
         dashboard.setVisible(true);
         
 //        DashboardView dashboard = new DashboardView(1);

@@ -9,6 +9,7 @@ import Model.Anime.InterfaceDAOAnime;
 import Model.Anime.ModelAnime;
 import View.DashboardView;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -25,9 +26,21 @@ public class ControllerAnime {
         this.daoAnime = new DAOAnime();
     }
 
-    public void fetchAnime(){
-        listAnime = daoAnime.fetchTopAnime(1); // ambil page 1 misalnya
+    public void fetchAnime(int page){
+        if (page < 1) {
+            JOptionPane.showMessageDialog(halamanDashboard, "Tidak bisa ke halaman sebelumnya");
+        }else{
+            listAnime = daoAnime.fetchTopAnime(page); // ambil page 1 misalnya
         // Kirim data ke view
+        halamanDashboard.displayAnimeList(listAnime);
+        }
+        
+        
+    }
+    
+    public void searchAnime(String query){
+        listAnime = daoAnime.searchAnime(query);
+        
         halamanDashboard.displayAnimeList(listAnime);
     }
 }

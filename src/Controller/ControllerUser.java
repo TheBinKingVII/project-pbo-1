@@ -88,7 +88,7 @@ public class ControllerUser {
             for (ModelUser users : listUser) {
                 if (users.getUsername().equals(username) && users.getPassword().equals(password)) {
                     JOptionPane.showMessageDialog(halamanLogin, "Anda berhasil Login");
-                    DashboardView halamanDashboard = new DashboardView(users.getId());
+                    DashboardView halamanDashboard = new DashboardView(users.getId(), 1);
                     halamanLogin.dispose();
                     halamanDashboard.setVisible(true);
                     
