@@ -45,7 +45,7 @@ public class RegisterView extends javax.swing.JFrame {
         usernameTextField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setSize(new java.awt.Dimension(2560, 1440));
+        setSize(new java.awt.Dimension(1920, 1080));
 
         namaTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

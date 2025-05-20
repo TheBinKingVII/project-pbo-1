@@ -6,6 +6,7 @@ package Main;
 
 
 import View.DashboardView;
+import View.DashboardView;
 import View.RegisterView;
 
 /**
@@ -24,6 +25,7 @@ public class Main {
         
         DashboardView dashboard = new DashboardView(1);
         dashboard.setVisible(true);
+        
 //        DashboardView dashboard = new DashboardView(1);
 //        dashboard.setVisible(true);
     }
