@@ -5,19 +5,18 @@
 package View;
 
 import Controller.ControllerAnime;
+import Controller.ControllerBookmark;
 import Model.Anime.ModelAnime;
+import Model.Bookmark.ModelBookmark;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 /**
  *
@@ -29,7 +28,10 @@ public class DashboardView extends javax.swing.JFrame {
      * Creates new form Dashboard1
      */
     private JPanel animePanel;
+
     ControllerAnime controller;
+    ControllerBookmark controllerBookmark;
+    
     int ID;
     int page;
 
@@ -37,9 +39,10 @@ public class DashboardView extends javax.swing.JFrame {
         initComponents();
         this.ID = ID;
         this.page = page;
-        controller = new ControllerAnime(this, this.ID);
+        controller = new ControllerAnime(this);
+        
 
-        System.out.println("ID : " + this.ID);
+        System.out.println("User ID " + this.ID);
 
         animePanel = new JPanel();
         animePanel.setLayout(new BoxLayout(animePanel, BoxLayout.Y_AXIS));
@@ -49,11 +52,10 @@ public class DashboardView extends javax.swing.JFrame {
 // Atur scroll pane langsung
         jScrollPane1.setViewportView(animePanel);
 
-
-        controller.fetchAnime(this.page);
+        controller.fetchAnime(this.page, this.ID);
     }
-    
-    public void displayAnimeList(List<ModelAnime> animeList) {
+
+    public void displayAnimeList(List<ModelAnime> animeList, List<ModelBookmark> bookmarkList) {
         animePanel.removeAll();
 
         for (ModelAnime anime : animeList) {
@@ -89,11 +91,66 @@ public class DashboardView extends javax.swing.JFrame {
             JLabel synopsisLabel = new JLabel("<html><p style='width:600px;'>" + synopsis + "</p></html>");
             synopsisLabel.setFont(new Font("SansSerif", Font.PLAIN, 12));
 
+            JButton bookmarkButton;
+            boolean isBookmarked = false;
+
+            for (ModelBookmark bookmark : bookmarkList) {
+                if (anime.getId() == bookmark.getIdAnime()) {
+                    isBookmarked = true;
+                    break;
+                }
+            }
+
+            if (isBookmarked) {
+                bookmarkButton = new JButton("Remove Bookmark");
+                bookmarkButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        int input = JOptionPane.showConfirmDialog(
+                                null,
+                                "Remove Bookmark " + anime.getTitle() + "?",
+                                "Hapus Mahasiswa",
+                                JOptionPane.YES_NO_OPTION
+                        );
+
+                        if (input == 0) {
+                           
+                           
+//                              
+//                            
+//                            JOptionPane.showMessageDialog(null, "Berhasil menghapus data.");
+//
+//                            
+//                            showAllDosen();
+                        }
+                    }
+
+                });
+            } else {
+                
+                bookmarkButton = new JButton("Bookmark");
+                bookmarkButton.addActionListener(new ActionListener() {
+                    
+                    
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        int userID = DashboardView.this.ID;
+                        System.out.println("ID User " + userID);
+                        PopUpView popUp = new PopUpView(anime, userID);
+                        popUp.setVisible(true);
+                    }
+                    
+
+                });
+            }
+
             infoPanel.add(titleLabel);
             infoPanel.add(Box.createVerticalStrut(5));
             infoPanel.add(ratingLabel);
             infoPanel.add(Box.createVerticalStrut(5));
             infoPanel.add(synopsisLabel);
+            infoPanel.add(Box.createVerticalStrut(5));
+            infoPanel.add(bookmarkButton);
 
             itemPanel.add(imageLabel, BorderLayout.WEST);
             itemPanel.add(infoPanel, BorderLayout.CENTER);
@@ -290,19 +347,20 @@ public class DashboardView extends javax.swing.JFrame {
     private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
         // TODO add your handling code here:
         this.page += 1;
-        controller.fetchAnime(page);
+        controller.fetchAnime(page, this.ID);
     }//GEN-LAST:event_nextButtonActionPerformed
 
     private void prevButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prevButtonActionPerformed
         // TODO add your handling code here:
-            this.page -= 1;
-            controller.fetchAnime(page);
-        
+        this.page -= 1;
+        controller.fetchAnime(page, this.ID);
+
     }//GEN-LAST:event_prevButtonActionPerformed
+
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
         // TODO add your handling code here:
-        controller.searchAnime(searchInput.getText());
+        controller.searchAnime(searchInput.getText(), this.ID);
     }//GEN-LAST:event_searchButtonActionPerformed
 
     private void searchInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchInputActionPerformed
@@ -341,15 +399,14 @@ public class DashboardView extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             int ID = this.ID;
             int page = this.page;
+
             ;
             public void run() {
-
                 new DashboardView(ID, page).setVisible(true);
             }
         });
     }
-    
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

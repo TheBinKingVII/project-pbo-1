@@ -20,11 +20,11 @@ public class Main {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-//        RegisterView register = new RegisterView();
-//        register.setVisible(true);
+        RegisterView register = new RegisterView();
+        register.setVisible(true);
         
-        DashboardView dashboard = new DashboardView(1,1);
-        dashboard.setVisible(true);
+//        DashboardView dashboard = new DashboardView(1,1);
+//        dashboard.setVisible(true);
         
 //        DashboardView dashboard = new DashboardView(1);
 //        dashboard.setVisible(true);

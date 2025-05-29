@@ -17,7 +17,7 @@ import java.util.List;
  *
  * @author BINTORO
  */
-public class DAOBookmark {
+public class DAOBookmark implements InterfaceDAOBookmark{
     public void insertBookmark(ModelBookmark bookmark) {
         try {
             String query = "INSERT INTO bookmark (user_id, anime_id, anime_title, anime_image_url, catatan) VALUES (?, ?, ?, ?, ?)";
@@ -90,4 +90,6 @@ public class DAOBookmark {
 
         return bookmarks;
     }
+
+    
 }

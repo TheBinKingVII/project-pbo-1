@@ -10,10 +10,13 @@ import java.util.List;
  *
  * @author BINTORO
  */
-public interface InterfaceDaoBookmark {
-    public void insertBookmark(ModelBookmark bookmark);
-    public void updateBookmark(ModelBookmark bookmark);
-    public void deleteBookmark(int userId, int animeId);
-    public List<ModelBookmark> getBookmarksByUserId(int userId);
-    
+public interface InterfaceDAOBookmark {
+
+    void insertBookmark(ModelBookmark bookmark);
+
+    void deleteBookmark(int userId, int animeId);
+
+    void updateBookmark(ModelBookmark bookmark);
+
+    List<ModelBookmark> getBookmarksByUserId(int userId);
 }

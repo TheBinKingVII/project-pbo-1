@@ -9,10 +9,13 @@ package Model.Bookmark;
  * @author BINTORO
  */
 public class ModelBookmark {
+
     private int id;
     private int idUser;
     private int idAnime;
     private String animeTitle;
+    private String imgUrlAnime;
+    private String catatan;
 
     public int getId() {
         return id;
@@ -61,6 +64,4 @@ public class ModelBookmark {
     public void setCatatan(String catatan) {
         this.catatan = catatan;
     }
-    private String imgUrlAnime;
-    private String catatan;
 }
